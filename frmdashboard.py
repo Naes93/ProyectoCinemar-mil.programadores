@@ -1,7 +1,10 @@
 import tkinter as tk
 import tkinter.font as tkFont
 from frmusers import Users
-from frmsala import Sala
+from frmpeliculas import Peliculas
+from frmfunciones import Funciones
+from frmsalas import Salas
+from frmfuncion import Funcion
 
 class Dashboard(tk.Toplevel):
     def __init__(self, master=None):
@@ -25,6 +28,26 @@ class Dashboard(tk.Toplevel):
         GButton_245["text"] = "Usuarios"
         GButton_245.place(x=10,y=40,width=165,height=45)
         GButton_245["command"] = self.abrir_usuarios
+
+        Button_peliculas=tk.Button(self)
+        Button_peliculas["bg"] = "#f0f0f0"
+        ft = tkFont.Font(family='Times',size=10)
+        Button_peliculas["font"] = ft
+        Button_peliculas["fg"] = "#000000"
+        Button_peliculas["justify"] = "center"
+        Button_peliculas["text"] = "Peliculas"
+        Button_peliculas.place(x=10,y=150,width=165,height=45)
+        Button_peliculas["command"] = self.abrir_peliculas
+
+        Button_funciones=tk.Button(self)
+        Button_funciones["bg"] = "#f0f0f0"
+        ft = tkFont.Font(family='Times',size=10)
+        Button_funciones["font"] = ft
+        Button_funciones["fg"] = "#000000"
+        Button_funciones["justify"] = "center"
+        Button_funciones["text"] = "Funciones"
+        Button_funciones.place(x=190,y=150,width=165,height=45)
+        Button_funciones["command"] = self.abrir_funciones
 
         GLabel_996=tk.Label(self)
         ft = tkFont.Font(family='Times',size=10)
@@ -58,7 +81,19 @@ class Dashboard(tk.Toplevel):
         Users(self)
 
     def abrir_salas(self):
-        Sala(self)
+        Salas(self)
+
+    def abrir_peliculas(self):
+        Peliculas(self)
+
+    def abrir_funciones(self):
+        Funciones(self)
 
     def abrir_descuentos(self):
         print("descuentos")
+
+    def abrir_salas(self):
+        print("salas")
+
+    #def abrir_descuentos(self):
+    #    print("descuentos")
