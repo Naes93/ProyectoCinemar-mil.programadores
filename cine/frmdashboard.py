@@ -5,7 +5,6 @@ from frmusers import Users
 from peliculas import Peliculas
 from frmsala import Sala
 
-
 class Dashboard(tk.Toplevel):
     def __init__(self, master=None):
         super().__init__(master)
@@ -66,7 +65,6 @@ class Dashboard(tk.Toplevel):
         GButton_438["text"] = "Salas"
         GButton_438.place(x=190,y=100,width=165,height=45)
         GButton_438["command"] = self.abrir_salas
-
 
     def abrir_usuarios(self):
         Users(self)
