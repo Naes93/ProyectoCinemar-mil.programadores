@@ -1,0 +1,76 @@
+CREATE TABLE "Administracion" (
+	"CantReservas"	NUMERIC,
+	"IdReservas"	INTEGER NOT NULL,
+	"FechayHsde Pelicula"	NUMERIC NOT NULL,
+	"GeneroPelicula"	TEXT NOT NULL,
+	"Sala"	NUMERIC NOT NULL,
+	"Estreno"	BLOB NOT NULL
+)
+
+CREATE TABLE "Descuento" (
+	"IdDescuento"	VARCHAR,
+	"DiaDescuento"	VARCHAR,
+	"PorcentajeDescuento"	INTEGER,
+	PRIMARY KEY("IdDescuento")
+)
+
+CREATE TABLE "Peliculas" (
+	"IdPelis"	INTEGER,
+	"Categoria"	VARCHAR NOT NULL,
+	"Sala"	INTEGER,
+	"IdFormato"	INTEGER,
+	PRIMARY KEY("IdPelis"),
+	FOREIGN KEY("Sala") REFERENCES "Peliculas"("Sala"),
+	FOREIGN KEY("IdFormato") REFERENCES "Peliculas"("IdFormato")
+)
+
+CREATE TABLE "Reserva" (
+	"IdReserva"	INTEGER,
+	"FechaReserva"	TEXT,
+	"IdDescuento"	VARCHAR,
+	"IdPelicula"	INTEGER,
+	"IdUsuario"	INTEGER,
+	"DescuentoReserva"	INTEGER,
+	PRIMARY KEY("IdReserva"),
+	FOREIGN KEY("IdUsuario") REFERENCES "Reserva"("IdUsuario")
+)
+
+CREATE TABLE "Rol" (
+	"IdRol"	INTEGER,
+	"NombreTipo"	VARCHAR,
+	"Rol"	VARCHAR,
+	"EsActivo"	INTEGER NOT NULL DEFAULT 1,
+	PRIMARY KEY("IdRol")
+)
+
+CREATE TABLE "Salas" (
+	"IdSala"	INTEGER,
+	"Nombre o Nro de Sala"	TEXT NOT NULL,
+	"Capacidad_Sala"	INTEGER,
+	"Soporte de Proyeccion"	BLOB,
+	"Hs o Tiempo de Proyeccion"	INTEGER NOT NULL,
+	"IdPelicula"	INTEGER,
+	PRIMARY KEY("IdSala"),
+	FOREIGN KEY("IdPelicula") REFERENCES "Salas"("IdPelicula")
+)
+
+CREATE TABLE "Usuarios" (
+	"IdUsuario"	INTEGER NOT NULL UNIQUE,
+	"NombreApellido"	TEXT NOT NULL UNIQUE,
+	"DNI"	NUMERIC(50) NOT NULL,
+	"Email"	TEXT(30) NOT NULL,
+	"NumGrupo familiar"	NUMERIC,
+	"Telefono"	REAL,
+	"FechaNac"	VARCHAR,
+	"Contrasenia"	VARCHAR(100) NOT NULL,
+	"IdRole"	VARCHAR(4) NOT NULL,
+	"EsActivo"	INTEGER NOT NULL DEFAULT 1,
+	FOREIGN KEY("IdRole") REFERENCES "Usuarios"("IdRol"),
+	PRIMARY KEY("IdUsuario" AUTOINCREMENT)
+)
+
+CREATE INDEX "Asientos" ON "Administracion" (
+	"IdReservas"
+)
+
+#base de datos final editada en grupo a partir de la base de datos de ANDRES QUIPILDOR.
