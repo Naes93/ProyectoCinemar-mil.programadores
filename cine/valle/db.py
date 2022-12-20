@@ -147,7 +147,7 @@ class Db:
 
         tablas = {"Peliculas": sql_peliculas}
 
-        with sqlite3.connect(database) as cnn:
+            with sqlite3.connect(database) as cnn:
             cursor = cnn.cursor()
             for tabla, sql in tablas.items():
                 print(f"Poblando tabla {tabla}")
@@ -155,9 +155,27 @@ class Db:
                 count = int(cursor.fetchone()[0])
                 if count == 0:
                     cursor.execute(sql) 
-                    cnn.commit()      
+                    cnn.commit()   
+   
+         sql_salas ='''INSERT INTO Salas (NombreSala, Tipo, Capacidad )
+                    VALUES
+                        ("1", "2D", "50"),
+                        ("2","3D", "60")
+                        :'''
 
-            sql_descuento ='''INSERT INTO Descuento (IdDescuento, DiaDescuento, PorcentajeDescuento)
+         tablas = {"Salas": sql_salas}
+
+            with sqlite3.connect(database) as cnn:
+            cursor = cnn.cursor()
+            for tabla, sql in tablas.items():
+                print(f"Poblando tabla {tabla}")
+                cursor.execute(f"SELECT COUNT(*) FROM {tabla}")
+                count = int(cursor.fetchone()[0])
+                if count == 0:
+                    cursor.execute(sql) 
+                    cnn.commit()
+
+         sql_descuento ='''INSERT INTO Descuento (IdDescuento, DiaDescuento, PorcentajeDescuento)
                     VALUES
                       ("001", "Lunes", "20"),
                       ("002","Martes", "15"),
@@ -167,10 +185,11 @@ class Db:
                       ("006","Sabado", "10"),
                       ("007","Domingo", "10"),
                         :'''
-          tablas = {"Descuento": sql_descuento}
-          with sqlite3.connect(database) as cnn:
-            cursor = cnn.cursor()
-            for tabla, sql in tablas.items():
+         tablas = {"Descuento": sql_descuento}
+
+                with sqlite3.connect(database) as cnn:
+                cursor = cnn.cursor()
+                for tabla, sql in tablas.items():
                 print(f"Poblando tabla {tabla}")
                 cursor.execute(f"SELECT COUNT(*) FROM {tabla}")
                 count = int(cursor.fetchone()[0])
