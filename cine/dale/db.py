@@ -157,6 +157,27 @@ class Db:
                     cursor.execute(sql) 
                     cnn.commit()      
 
+            sql_descuento ='''INSERT INTO Descuento (IdDescuento, DiaDescuento, PorcentajeDescuento)
+                    VALUES
+                      ("001", "Lunes", "20"),
+                      ("002","Martes", "15"),
+                     ("003","Miercoles","20"),
+                      ("004", "Jueves", "15"),
+                      ("005","Viernes", "10"),
+                      ("006","Sabado", "10"),
+                      ("007","Domingo", "10"),
+                        :'''
+          tablas = {"Descuento": sql_descuento}
+          with sqlite3.connect(database) as cnn:
+            cursor = cnn.cursor()
+            for tabla, sql in tablas.items():
+                print(f"Poblando tabla {tabla}")
+                cursor.execute(f"SELECT COUNT(*) FROM {tabla}")
+                count = int(cursor.fetchone()[0])
+                if count == 0:
+                    cursor.execute(sql) 
+                    cnn.commit()
+
     @staticmethod
     def formato_fecha_db(fecha):
         return date(int(fecha[6:]), int(fecha[3:5]), int(fecha[0:2]))
