@@ -89,7 +89,25 @@ class Db:
 	FOREIGN KEY("IdUsuario") REFERENCES "Reserva"("IdUsuario")
 );'''
 
-
+        sql_butaca = ''' CREATE TABLE IF NOT EXISTS "Butaca" ON "Administracion" (
+          "Id_asiento" INTEGER,
+          "ocupado" BOOL,
+          "Idfuncion" INTEGER,
+          "IdReserva" INTEGER,
+          FOREIGN KEY(Idfuncion) REFERENCES funcion(Idfuncion),
+          FOREIGN KEY(IdReserva) REFERENCES Reserva (IdReserva)
+          PRIMARY KEY ("Id_asiento" INTEGER)
+            );'''
+                        
+          sql_descuento = ''' CREATE TABLE IF NOT EXISTS "Descuento" (
+	"IdDescuento"	VARCHAR,
+	"DiaDescuento"	VARCHAR,
+	"PorcentajeDescuento"	INTEGER,
+	"IdReserva" INTEGER,
+	FOREIGN KEY (IdReserva) REFERENCES Reserva (IdReserva)
+	PRIMARY KEY("IdDescuento")
+            );'''
+                      
 
         tablas = {"Usuarios": sql_usuarios, "Roles": sql_roles, "Peliculas" : sql_peliculas,}
 
