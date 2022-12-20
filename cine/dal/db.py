@@ -45,16 +45,51 @@ class Db:
                             "Activo"	INTEGER NOT NULL DEFAULT 1,
                             PRIMARY KEY("RolId")
                         );'''
+        sql_administracion = ''' CREATE TABLE IF NOT EXISTS "Administracion" (
+	"CantReservas"	VARCHAR(25),
+	"IdUsuario" INTEGER,
+	"IdReserva"	INTEGER NOT NULL,
+	"IdPelicula" INTEGER,
+	"Id_Sala" INTEGER,
+	"Idfuncion"	TEXT NOT NULL,
+	"IdDescuento"	NUMERIC NOT NULL,
+	"Id_Estreno"	BLOB NOT NULL)
+            );'''
+                
         sql_peliculas = '''CREATE TABLE IF NOT EXISTS "Peliculas" (
-	                        "IdPelis"	INTEGER,
+	                        "IdPelicula"	INTEGER,
                         	"Nombre_pelicula"	VARCHAR(50) NOT NULL,
 	                        "Categorias"	VARCHAR(50) NOT NULL,
                         	"Sala"	INTEGER,
 	                        "Hs_funcion"	INTEGER,
                         	"Activo"	INTEGER NOT NULL DEFAULT 1,
                         	FOREIGN KEY("Sala") REFERENCES "Peliculas"("Sala"),
-                        	PRIMARY KEY("IdPelis" AUTOINCREMENT)
+                        	PRIMARY KEY("IdPelicula" AUTOINCREMENT)
                         );'''
+
+         sql_funcion = '''CREATE TABLE IF NOT EXISTS "Funcion" (
+               "Idfuncion" INTEGER,
+               "horario" VARCHAR(6),
+               "dia" VARCHAR(8),
+               "Id_Sala" INTEGER,
+               FOREIGN KEY("Id_Sala") REFERENCES sala("Id_Sala")
+               PRIMARY KEY ("Idfuncion")
+               );'''
+                        
+         sql_reserva = '''CREATE TABLE IF NOT EXISTS "Reserva" (
+	"IdReserva"	INTEGER,
+	"FechaReserva"	VARCHAR(8),
+	"precio_entrada" INTEGER,
+	"IdDescuento"	INTEGER,
+	"IdPelicula"	INTEGER,
+	"IdUsuario"	INTEGER,
+	PRIMARY KEY("IdReserva"),
+	FOREIGN KEY ("IdDescuento") REFERENCES Descuento ("IdDescuento")
+	FOREIGN KEY ("IdPelicula") REFERENCES Peliculas ("IdPelicula")
+	FOREIGN KEY("IdUsuario") REFERENCES "Reserva"("IdUsuario")
+);'''
+
+
 
         tablas = {"Usuarios": sql_usuarios, "Roles": sql_roles, "Peliculas" : sql_peliculas,}
 
@@ -75,7 +110,7 @@ class Db:
                         (3, "Operador"),
                         (4, "Cliente");'''
     
-        tablas = {"Roles": sql_roles}
+        tablas = {"Roles": sql_roles, "Pelicula": sql_pelicula }
 
         with sqlite3.connect(database) as cnn:
             cursor = cnn.cursor()
@@ -86,7 +121,7 @@ class Db:
                 if count == 0:
                     cursor.execute(sql)
 
-        sql_peliculas = '''INSERT INTO Peliculas (IdPelis, Nombre_pelicula, Categorias, Sala, Hs_funcion) 
+        sql_peliculas = '''INSERT INTO Peliculas (IdPelicula, Nombre_pelicula, Categorias, Sala, Hs_funcion) 
                     VALUES 
                         (1, "El Conjuro", "Terror", 2, "15:30"),
                         (2, "Avatar", "Cienciaficcion", 3, "19:00");'''
